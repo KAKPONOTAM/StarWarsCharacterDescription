@@ -7,4 +7,5 @@ target 'StarWars' do
 
   # Pods for StarWars
    pod 'SnapKit', '~> 5.6.0'
+   pod 'RealmSwift', '~>10'
 end

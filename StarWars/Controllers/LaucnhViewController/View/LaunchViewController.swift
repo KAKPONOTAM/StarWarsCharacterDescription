@@ -13,10 +13,18 @@ final class LaunchViewController: UIViewController {
         return imageView
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = .white
+        
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubview()
         setupConstraints()
+        presenter?.downloadInfo()
     }
 }
 
@@ -24,11 +32,18 @@ final class LaunchViewController: UIViewController {
 extension LaunchViewController {
     private func addSubview() {
         view.addSubview(launchImageView)
+        view.addSubview(activityIndicator)
+        
+        view.bringSubviewToFront(activityIndicator)
     }
     
     private func setupConstraints() {
         launchImageView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 }
@@ -41,4 +56,8 @@ extension LaunchViewController: PresenterConfigurationProtocol {
 }
 
 //MARK: - LaunchViewProtocol
-extension LaunchViewController: LaunchViewProtocol {}
+extension LaunchViewController: LaunchViewProtocol {
+    func downloadBegin() {
+        activityIndicator.startAnimating()
+    }
+}

@@ -23,6 +23,8 @@
 		66BE8F602A7E9A67001DC95D /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F5C2A7E9A67001DC95D /* SearchViewController.swift */; };
 		66BE8F652A7E9FB4001DC95D /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F642A7E9FB4001DC95D /* NetworkError.swift */; };
 		66BE8F692A7E9FDC001DC95D /* URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F682A7E9FDC001DC95D /* URL.swift */; };
+		66BE8F702A7EE238001DC95D /* CharacterModelResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F6F2A7EE238001DC95D /* CharacterModelResult.swift */; };
+		66BE8F732A7EE28B001DC95D /* StarshipModelResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F722A7EE28B001DC95D /* StarshipModelResult.swift */; };
 		8B5DAEA86CF25DA5AFB13A04 /* Pods_StarWars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 551F28DA28CE2BCED59A101B /* Pods_StarWars.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +49,8 @@
 		66BE8F5C2A7E9A67001DC95D /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		66BE8F642A7E9FB4001DC95D /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		66BE8F682A7E9FDC001DC95D /* URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URL.swift; sourceTree = "<group>"; };
+		66BE8F6F2A7EE238001DC95D /* CharacterModelResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterModelResult.swift; sourceTree = "<group>"; };
+		66BE8F722A7EE28B001DC95D /* StarshipModelResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarshipModelResult.swift; sourceTree = "<group>"; };
 		E0ED04AAE9C5A9E4FB26ACC5 /* Pods-StarWars.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StarWars.release.xcconfig"; path = "Target Support Files/Pods-StarWars/Pods-StarWars.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -308,8 +312,26 @@
 		66BE8F6B2A7EA7F0001DC95D /* StarWarsModels */ = {
 			isa = PBXGroup;
 			children = (
+				66BE8F712A7EE262001DC95D /* StarshipModelResult */,
+				66BE8F6E2A7EE220001DC95D /* CharacterModel */,
 			);
 			path = StarWarsModels;
+			sourceTree = "<group>";
+		};
+		66BE8F6E2A7EE220001DC95D /* CharacterModel */ = {
+			isa = PBXGroup;
+			children = (
+				66BE8F6F2A7EE238001DC95D /* CharacterModelResult.swift */,
+			);
+			path = CharacterModel;
+			sourceTree = "<group>";
+		};
+		66BE8F712A7EE262001DC95D /* StarshipModelResult */ = {
+			isa = PBXGroup;
+			children = (
+				66BE8F722A7EE28B001DC95D /* StarshipModelResult.swift */,
+			);
+			path = StarshipModelResult;
 			sourceTree = "<group>";
 		};
 		7C43931B89788B22866AA7C0 /* Pods */ = {
@@ -450,11 +472,13 @@
 				66BE8F492A7E9A5C001DC95D /* NetworkManager.swift in Sources */,
 				66BE8F5F2A7E9A67001DC95D /* SearchViewPresenter.swift in Sources */,
 				66BE8F482A7E9A5C001DC95D /* PresenterConfigurationProtocol.swift in Sources */,
+				66BE8F702A7EE238001DC95D /* CharacterModelResult.swift in Sources */,
 				66BE8F602A7E9A67001DC95D /* SearchViewController.swift in Sources */,
 				66BE8F5E2A7E9A67001DC95D /* LaunchViewController.swift in Sources */,
 				66BE8F512A7E9A62001DC95D /* DefaultRouterProtocol.swift in Sources */,
 				66BE8F3E2A7E9A44001DC95D /* AppBuilder.swift in Sources */,
 				66BE8F652A7E9FB4001DC95D /* NetworkError.swift in Sources */,
+				66BE8F732A7EE28B001DC95D /* StarshipModelResult.swift in Sources */,
 				66BE8F3D2A7E9A44001DC95D /* ModuleBuilder.swift in Sources */,
 				66BE8F502A7E9A62001DC95D /* MainRouter.swift in Sources */,
 			);

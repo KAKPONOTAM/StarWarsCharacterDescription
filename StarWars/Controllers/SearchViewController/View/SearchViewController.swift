@@ -4,7 +4,7 @@ import SnapKit
 final class SearchViewController: UIViewController {
     private var presenter: SearchViewPresenterProtocol?
     
-    private lazy var charactersCollectionView: UICollectionView = {
+    private lazy var starWarsDataCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
@@ -23,11 +23,11 @@ final class SearchViewController: UIViewController {
 //MARK: - private
 extension SearchViewController {
     private func addSubview() {
-        view.addSubview(charactersCollectionView)
+        view.addSubview(starWarsDataCollectionView)
     }
     
     private func setupConstraints() {
-        charactersCollectionView.snp.makeConstraints {
+        starWarsDataCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
     }

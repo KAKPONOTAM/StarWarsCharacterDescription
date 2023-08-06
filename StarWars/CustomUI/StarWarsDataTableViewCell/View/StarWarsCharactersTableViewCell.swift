@@ -2,6 +2,13 @@ import UIKit
 import SnapKit
 
 final class StarWarsDataTableViewCell: UITableViewCell {
+    private let containerForLabel: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        
+        return view
+    }()
+    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
@@ -11,7 +18,7 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let genderLabel: UILabel = {
+    private let secondParameterLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.textAlignment = .left
@@ -41,29 +48,36 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return nil
     }
     
-    func configure(with name: String?, gender: String?, starshipsAmount: Int) {
+    func configure(with name: String?, secondParameter: String?, amount: String?) {
         nameLabel.text = name
-        genderLabel.text = gender
-        starshipDrivingAmountLabel.text = "Driving starship amount: \(starshipsAmount)"
+        secondParameterLabel.text = secondParameter
+        starshipDrivingAmountLabel.text = amount
     }
 }
 
 //MARK: - private
 extension StarWarsDataTableViewCell {
     private func addSubview() {
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(genderLabel)
-        contentView.addSubview(starshipDrivingAmountLabel)
+        contentView.addSubview(containerForLabel)
+        
+        containerForLabel.addSubview(nameLabel)
+        containerForLabel.addSubview(secondParameterLabel)
+        containerForLabel.addSubview(starshipDrivingAmountLabel)
     }
     
     private func setupConstraints() {
+        containerForLabel.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         nameLabel.snp.makeConstraints {
             $0.top.leading.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
         }
         
-        genderLabel.snp.makeConstraints {
+        secondParameterLabel.snp.makeConstraints {
             $0.top.equalTo(nameLabel.snp.bottom)
             $0.leading.equalTo(nameLabel)
+            $0.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
         }
         
         starshipDrivingAmountLabel.snp.makeConstraints {

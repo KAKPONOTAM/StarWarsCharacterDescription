@@ -1,3 +1,3 @@
 import Foundation
 
-typealias SearchPresenter = SearchViewPresenterProtocol & SearchViewPresentDownloadProtocol
+typealias SearchViewPresenter = SearchViewPresenterProtocol & SearchViewPresenterDownloadProtocol & SearchViewPresenterTextConfigurationProtocol

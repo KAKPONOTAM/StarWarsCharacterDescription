@@ -6,6 +6,25 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .left
+        label.numberOfLines = .zero
+        
+        return label
+    }()
+    
+    private let genderLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.textAlignment = .left
+        label.numberOfLines = .zero
+        
+        return label
+    }()
+    
+    private let starshipDrivingAmountLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray
+        label.textAlignment = .left
+        label.numberOfLines = .zero
         
         return label
     }()
@@ -22,8 +41,10 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return nil
     }
     
-    func configure(with name: String?) {
+    func configure(with name: String?, gender: String?, starshipsAmount: Int) {
         nameLabel.text = name
+        genderLabel.text = gender
+        starshipDrivingAmountLabel.text = "Driving starship amount: \(starshipsAmount)"
     }
 }
 
@@ -31,12 +52,23 @@ final class StarWarsDataTableViewCell: UITableViewCell {
 extension StarWarsDataTableViewCell {
     private func addSubview() {
         contentView.addSubview(nameLabel)
+        contentView.addSubview(genderLabel)
+        contentView.addSubview(starshipDrivingAmountLabel)
     }
     
     private func setupConstraints() {
         nameLabel.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.nameLabelSideInset)
+            $0.top.leading.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
+        }
+        
+        genderLabel.snp.makeConstraints {
+            $0.top.equalTo(nameLabel.snp.bottom)
+            $0.leading.equalTo(nameLabel)
+        }
+        
+        starshipDrivingAmountLabel.snp.makeConstraints {
+            $0.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
+            $0.centerY.equalToSuperview()
         }
     }
 }

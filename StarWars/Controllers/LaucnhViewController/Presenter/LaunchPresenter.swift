@@ -26,7 +26,7 @@ final class LaunchPresenterImplementation: LaunchViewPresenterProtocol {
         Task {
             do {
                 let starshipModelsResult: StarshipModelResult = try await networkManager.downloadInfo(urlAbsoluteString: URL.DefaultURLAbsoluteStrings.starships.urlAbsoluteString)
-                let characterModelsResult: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: URL.DefaultURLAbsoluteStrings.starships.urlAbsoluteString)
+                let characterModelsResult: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: URL.DefaultURLAbsoluteStrings.starWarsPeople.urlAbsoluteString)
                 
                 await MainActor.run {
                     router.changeRootViewController(networkManager: networkManager, characterModelResult: characterModelsResult, starshipModelResult: starshipModelsResult)

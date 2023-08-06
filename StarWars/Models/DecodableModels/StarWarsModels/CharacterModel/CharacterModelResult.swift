@@ -1,11 +1,11 @@
 import Foundation
 
 struct CharacterModelResult: Decodable {
-    let next: String?
-    let results: [CharacterModel]
+    var next: String?
+    var results: [CharacterModel]
 }
 
-struct CharacterModel: Decodable {
+struct CharacterModel: Hashable, Decodable {
     let name: String
     let height: String?
     let mass: String?

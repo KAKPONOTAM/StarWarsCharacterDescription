@@ -76,6 +76,7 @@ extension SearchViewPresenterImplementation: SearchViewPresentDownloadProtocol {
                 let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
                 
                 filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
+                characterModelResult.results.append(contentsOf: newCharacters.results)
                 characterModelResult.next = newCharacters.next
                 
                 await MainActor.run {

@@ -40,7 +40,7 @@ extension SearchViewController {
     
     private func configureSearchBar() {
         let searchBar = UISearchBar()
-        searchBar.placeholder = presenter?.starshipModelResult.results.randomElement()?.name
+        searchBar.placeholder = presenter?.characterModelResult.results.randomElement()?.name
         searchBar.delegate = self
         
         navigationItem.titleView = searchBar
@@ -105,8 +105,11 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
               let presenter else { return UITableViewCell() }
         
         let starWarsDataName = presenter.characterModelResult.results[indexPath.row].name
+        let gender = presenter.characterModelResult.results[indexPath.row].gender
+        let starshipAmount = presenter.characterModelResult.results[indexPath.row].starships?.count
         
-        cell.configure(with: starWarsDataName)
+        
+        cell.configure(with: starWarsDataName, gender: gender, starshipsAmount: starshipAmount ?? .zero)
         
         return cell
     }

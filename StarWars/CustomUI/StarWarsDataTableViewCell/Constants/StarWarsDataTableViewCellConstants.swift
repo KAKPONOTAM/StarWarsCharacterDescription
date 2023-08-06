@@ -2,6 +2,6 @@ import UIKit
 
 extension StarWarsDataTableViewCell {
     struct StarWarsDataTableViewCellConstants {
-        static let nameLabelSideInset: CGFloat = 16
+        static let defaultSideInset: CGFloat = 16
     }
 }

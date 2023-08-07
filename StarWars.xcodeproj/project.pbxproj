@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347572A810ACD0048A569 /* FavouritesViewController.swift */; };
+		6613475A2A810AF60048A569 /* FavoritesViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347592A810AF60048A569 /* FavoritesViewPresenter.swift */; };
 		66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F222A7E9A12001DC95D /* AppDelegate.swift */; };
 		66BE8F2F2A7E9A14001DC95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F2D2A7E9A14001DC95D /* LaunchScreen.storyboard */; };
 		66BE8F372A7E9A35001DC95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F362A7E9A35001DC95D /* Assets.xcassets */; };
@@ -41,6 +43,8 @@
 /* Begin PBXFileReference section */
 		3643F34339E03D09F95E92FE /* Pods-StarWars.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StarWars.debug.xcconfig"; path = "Target Support Files/Pods-StarWars/Pods-StarWars.debug.xcconfig"; sourceTree = "<group>"; };
 		551F28DA28CE2BCED59A101B /* Pods_StarWars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StarWars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		661347572A810ACD0048A569 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
+		661347592A810AF60048A569 /* FavoritesViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewPresenter.swift; sourceTree = "<group>"; };
 		66BE8F1F2A7E9A12001DC95D /* StarWars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BE8F222A7E9A12001DC95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BE8F2E2A7E9A14001DC95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -86,6 +90,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		661347532A810A8D0048A569 /* FavoritesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				661347562A810ABE0048A569 /* View */,
+				661347552A810AA80048A569 /* Presenter */,
+				661347542A810A9B0048A569 /* Constants */,
+			);
+			path = FavoritesViewController;
+			sourceTree = "<group>";
+		};
+		661347542A810A9B0048A569 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		661347552A810AA80048A569 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				661347592A810AF60048A569 /* FavoritesViewPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		661347562A810ABE0048A569 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				661347572A810ACD0048A569 /* FavouritesViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		66BE8F162A7E9A12001DC95D = {
 			isa = PBXGroup;
 			children = (
@@ -228,6 +265,7 @@
 		66BE8F522A7E9A67001DC95D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				661347532A810A8D0048A569 /* FavoritesViewController */,
 				66BE8F532A7E9A67001DC95D /* LaucnhViewController */,
 				66BE8F582A7E9A67001DC95D /* SearchViewController */,
 			);
@@ -624,6 +662,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				66BE8F4A2A7E9A5C001DC95D /* UIImage.swift in Sources */,
+				6613475A2A810AF60048A569 /* FavoritesViewPresenter.swift in Sources */,
+				661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */,
 				66BE8F5D2A7E9A67001DC95D /* LaunchPresenter.swift in Sources */,
 				66BE8F862A7F9508001DC95D /* SearchViewConstants.swift in Sources */,
 				66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */,

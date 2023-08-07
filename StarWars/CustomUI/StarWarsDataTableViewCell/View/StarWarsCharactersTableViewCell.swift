@@ -30,7 +30,7 @@ final class StarWarsDataTableViewCell: UITableViewCell {
     private let starshipDrivingAmountLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
-        label.textAlignment = .left
+        label.textAlignment = .right
         label.numberOfLines = .zero
         
         return label
@@ -66,6 +66,8 @@ extension StarWarsDataTableViewCell {
     }
     
     private func setupConstraints() {
+        starshipDrivingAmountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
         containerForLabel.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -77,12 +79,12 @@ extension StarWarsDataTableViewCell {
         secondParameterLabel.snp.makeConstraints {
             $0.top.equalTo(nameLabel.snp.bottom)
             $0.leading.equalTo(nameLabel)
-            $0.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
+            $0.trailing.equalTo(starshipDrivingAmountLabel.snp.leading).offset(-5)
         }
         
         starshipDrivingAmountLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
-            $0.centerY.equalToSuperview()
+            $0.top.equalTo(secondParameterLabel)
         }
     }
 }

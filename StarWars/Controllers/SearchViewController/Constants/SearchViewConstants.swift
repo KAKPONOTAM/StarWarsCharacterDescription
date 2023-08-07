@@ -11,5 +11,7 @@ extension SearchViewController {
         static let heightForSegmentedControl: CGFloat = 40
         static let segmentedControlTopOffset: CGFloat = 20
         
+        static let heightForStarShipSection: CGFloat = 30
+        
     }
 }

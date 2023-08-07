@@ -66,14 +66,24 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
 extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol {
     func willDisplayCell(at indexPath: IndexPath) {
         if indexPath.section == characterModelResult.results.count - 1,
-           let nextPageURLAbsoluteString = characterModelResult.next {
+           let nextPageURLAbsoluteString = selectedSegment == .characters ? characterModelResult.next : starshipModelResult.next {
             viewController?.downloadingNewPage()
             Task {
-                let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
-                
-                filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
-                characterModelResult.results.append(contentsOf: newCharacters.results)
-                characterModelResult.next = newCharacters.next
+                switch selectedSegment {
+                case .characters:
+                    let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                    
+                    filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
+                    characterModelResult.results.append(contentsOf: newCharacters.results)
+                    characterModelResult.next = newCharacters.next
+                    
+                case .starships:
+                    let newStarships: StarshipModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                    
+                    filteredStarshipModelResult.results.append(contentsOf: newStarships.results)
+                    starshipModelResult.results.append(contentsOf: newStarships.results)
+                    starshipModelResult.next = newStarships.next
+                }
                 
                 await MainActor.run {
                     viewController?.newPageIsDownloaded()
@@ -87,7 +97,14 @@ extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol
 //MARK: - SearchViewPresenterTextConfigurationProtocol
 extension SearchViewPresenterImplementation: SearchViewPresenterTextConfigurationProtocol {
     func textIsEmpty() {
-        characterModelResult.results = filteredCharacterModelResult.results
+        switch selectedSegment {
+        case .characters:
+            characterModelResult.results = filteredCharacterModelResult.results
+            
+        case .starships:
+            starshipModelResult.results = filteredStarshipModelResult.results
+        }
+        
         viewController?.reloadData()
     }
     
@@ -95,11 +112,31 @@ extension SearchViewPresenterImplementation: SearchViewPresenterTextConfiguratio
         let minimumSearchSymbolsCount = 2
         guard text.count >= minimumSearchSymbolsCount else { return }
         
+        switch selectedSegment {
+        case .characters:
+            filterCharacterModel(with: text)
+            
+        case .starships:
+            filterStarshipModelResult(with: text)
+        }
+        
+        viewController?.reloadData()
+    }
+}
+
+//MARK: - private
+extension SearchViewPresenterImplementation {
+    private func filterCharacterModel(with text: String) {
         let filteredCharacters = Array(Set(filteredCharacterModelResult.results))
         let filteredCharacterResults = filteredCharacters.filter { $0.name.uppercased().contains(text.uppercased()) }
         
         characterModelResult.results = filteredCharacterResults
+    }
+    
+    private func filterStarshipModelResult(with text: String) {
+        let filteredStarships = Array(Set(filteredStarshipModelResult.results))
+        let filteredStarshipResults = filteredStarships.filter { $0.name.uppercased().contains(text.uppercased()) }
         
-        viewController?.reloadData()
+        starshipModelResult.results = filteredStarshipResults
     }
 }

@@ -62,39 +62,45 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
     }
 }
 
-//MARK: - SearchViewPresentDownloadProtocol
+//MARK: - SearchViewPresentDownloadProtocol (download other models (depends selected segment) if we saw all, which downloaded before)
 extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol {
     func willDisplayCell(at indexPath: IndexPath) {
         if indexPath.section == characterModelResult.results.count - 1,
            let nextPageURLAbsoluteString = selectedSegment == .characters ? characterModelResult.next : starshipModelResult.next {
             viewController?.downloadingNewPage()
             Task {
-                switch selectedSegment {
-                case .characters:
-                    let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                do {
+                    switch selectedSegment {
+                    case .characters:
+                        let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                        
+                        filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
+                        characterModelResult.results.append(contentsOf: newCharacters.results)
+                        characterModelResult.next = newCharacters.next
+                        
+                    case .starships:
+                        let newStarships: StarshipModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                        
+                        filteredStarshipModelResult.results.append(contentsOf: newStarships.results)
+                        starshipModelResult.results.append(contentsOf: newStarships.results)
+                        starshipModelResult.next = newStarships.next
+                    }
                     
-                    filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
-                    characterModelResult.results.append(contentsOf: newCharacters.results)
-                    characterModelResult.next = newCharacters.next
-                    
-                case .starships:
-                    let newStarships: StarshipModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
-                    
-                    filteredStarshipModelResult.results.append(contentsOf: newStarships.results)
-                    starshipModelResult.results.append(contentsOf: newStarships.results)
-                    starshipModelResult.next = newStarships.next
-                }
-                
-                await MainActor.run {
-                    viewController?.newPageIsDownloaded()
-                    viewController?.reloadData()
+                    await MainActor.run {
+                        viewController?.newPageIsDownloaded()
+                        viewController?.reloadData()
+                    }
+                } catch let error as NetworkError {
+                    await MainActor.run {
+                        router.handleError(message: error.errorDescription)
+                    }
                 }
             }
         }
     }
 }
 
-//MARK: - SearchViewPresenterTextConfigurationProtocol
+//MARK: - SearchViewPresenterTextConfigurationProtocol (present all downloaded models (depends selected segment) if text is empty )
 extension SearchViewPresenterImplementation: SearchViewPresenterTextConfigurationProtocol {
     func textIsEmpty() {
         switch selectedSegment {
@@ -124,7 +130,7 @@ extension SearchViewPresenterImplementation: SearchViewPresenterTextConfiguratio
     }
 }
 
-//MARK: - private
+//MARK: - private (filter model depends selected segment)
 extension SearchViewPresenterImplementation {
     private func filterCharacterModel(with text: String) {
         let filteredCharacters = Array(Set(filteredCharacterModelResult.results))

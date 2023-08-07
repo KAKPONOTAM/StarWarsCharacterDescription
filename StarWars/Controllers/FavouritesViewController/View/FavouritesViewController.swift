@@ -19,6 +19,7 @@ final class FavouritesViewController: UIViewController {
         addSubview()
         setupConstraints()
         presenter?.observeFavouriteModelInsertions()
+        title = ModuleTitles.favourites.title
     }
 }
 

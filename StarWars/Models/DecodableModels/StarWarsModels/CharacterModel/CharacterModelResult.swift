@@ -12,4 +12,5 @@ struct CharacterModel: Hashable, Decodable {
     let gender: String?
     let films: [String]?
     let starships: [String]?
+    let homeworld: String
 }

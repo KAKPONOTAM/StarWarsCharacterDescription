@@ -19,6 +19,7 @@ final class FavouritesViewController: UIViewController {
         addSubview()
         setupConstraints()
         presenter?.observeFavouriteModelInsertions()
+        title = ModuleTitles.favourites.title
     }
 }
 
@@ -62,17 +63,21 @@ extension FavouritesViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StarWarsDataTableViewCell.reuseIdentifier, for: indexPath) as? StarWarsDataTableViewCell,
               let presenter else { return UITableViewCell() }
         
-        let name = presenter.starWarsFavouriteModels[indexPath.section].name
-        let secondParameter = presenter.starWarsFavouriteModels[indexPath.section].secondParameter
-        let amount = presenter.starWarsFavouriteModels[indexPath.section].amount
+        let favouriteModel = presenter.starWarsFavouriteModels[indexPath.section]
+        let name = favouriteModel.name
+        let secondParameter = favouriteModel.secondParameter
+        let amount = favouriteModel.amount
+        let planet = favouriteModel.planet ?? Planet(planetName: .emptyString, diameter: .emptyString, populationAmount: .emptyString)
+        let planetDescription = "Planet Name: \(planet.planetName), Diameter: \(planet.diameter), Population: \(planet.populationAmount)"
+        let movieDescription = favouriteModel.movies.map { "\($0.movieName): Director: \($0.director), Producer: \($0.producer) \n" }.joined(separator: "\n")
         
-        cell.configure(with: name, secondParameter: secondParameter, amount: amount, isAddedToFavourite: true)
+        cell.configure(with: name, secondParameter: secondParameter, amount: amount, isAddedToFavourite: true, planetDescription: planetDescription, movieDescription: movieDescription)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return FavouritesViewConstants.heightForRow
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

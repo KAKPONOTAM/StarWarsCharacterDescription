@@ -22,7 +22,9 @@ protocol SearchViewPresenterDownloadProtocol {
 
 protocol SearchViewProtocol: AnyObject {
     func downloadingNewPage()
+    func downloadingDetailedInfo()
     func newPageIsDownloaded()
+    func finishedDownloadingDetailInfo()
     
     func reloadData()
 }
@@ -69,6 +71,7 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
         viewController?.reloadData()
     }
     
+    //MARK: - this method from SwipeConfigurationWorkProtocol (configuring realm model before save)
     func didSelectSwipeConfigurationItem(at indexPath: IndexPath) {
         let starWarsRealmModel = StarWarsRealmModel()
         
@@ -83,6 +86,8 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
             starWarsRealmModel.name = selectedModel.name
             starWarsRealmModel.secondParameter = selectedModel.gender ?? .emptyString
             starWarsRealmModel.amount = "\(selectedModel.starships?.count ?? .zero)"
+            
+            downloadCharactersDetailedInfo(indexPath: indexPath, starWarsRealmModel: starWarsRealmModel)
             
         case .starships:
             let selectedModel = starshipModelResult.results[indexPath.section]
@@ -100,10 +105,10 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
                                  """
             starWarsRealmModel.secondParameter = selectedModel.manufacturer
             starWarsRealmModel.amount = selectedModel.passengers
+            
+            downloadStarshipDetailedInfo(indexPath: indexPath, starWarsRealmModel: starWarsRealmModel)
+            
         }
-        
-        realmManager.save(starWarsRealmModel)
-        router.succesSave()
     }
     
     func favouriteButtonTapped() {
@@ -139,6 +144,7 @@ extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol
                         viewController?.newPageIsDownloaded()
                         viewController?.reloadData()
                     }
+                    
                 } catch let error as NetworkError {
                     await MainActor.run {
                         router.handleError(message: error.errorDescription)
@@ -149,7 +155,7 @@ extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol
     }
 }
 
-//MARK: - SearchViewPresenterTextConfigurationProtocol (present all downloaded models (depends selected segment) if text is empty )
+//MARK: - SearchViewPresenterTextConfigurationProtocol (present all downloaded models (depends selected segment) if text is empty)
 extension SearchViewPresenterImplementation: SearchViewPresenterTextConfigurationProtocol {
     func textIsEmpty() {
         switch selectedSegment {
@@ -193,5 +199,82 @@ extension SearchViewPresenterImplementation {
         let filteredStarshipResults = filteredStarships.filter { $0.name.uppercased().contains(text.uppercased()) }
         
         starshipModelResult.results = filteredStarshipResults
+    }
+    
+    private func downloadCharactersDetailedInfo(indexPath: IndexPath, starWarsRealmModel: StarWarsRealmModel) {
+        viewController?.downloadingDetailedInfo()
+        
+        Task {
+            let selectedModel = characterModelResult.results[indexPath.section]
+            let starWarsPlanet: StarWarsPlanet = try await networkManager.downloadInfo(urlAbsoluteString: selectedModel.homeworld)
+            let realmPlanet = Planet(
+                planetName: starWarsPlanet.name,
+                diameter: starWarsPlanet.diameter,
+                populationAmount: starWarsPlanet.population
+            )
+            
+            starWarsRealmModel.planet = realmPlanet
+            
+            if let films = selectedModel.films,
+               !films.isEmpty {
+                for film in films {
+                    do {
+                        let movie: StarWarsMovie = try await networkManager.downloadInfo(urlAbsoluteString: film)
+                        let realmMovie = Movie(
+                            movieName: movie.title,
+                            producer: movie.producer,
+                            director: movie.director
+                        )
+                        
+                        starWarsRealmModel.movies.append(realmMovie)
+                        
+                    } catch let error as NetworkError {
+                        await MainActor.run {
+                            router.handleError(message: error.errorDescription)
+                        }
+                    }
+                }
+            }
+            
+            await MainActor.run {
+                realmManager.save(starWarsRealmModel)
+                viewController?.finishedDownloadingDetailInfo()
+                router.succesSave()
+            }
+        }
+    }
+    
+    private func downloadStarshipDetailedInfo(indexPath: IndexPath, starWarsRealmModel: StarWarsRealmModel) {
+        viewController?.downloadingDetailedInfo()
+        
+        Task {
+            let selectedModel = starshipModelResult.results[indexPath.section]
+            if let films = selectedModel.films,
+               !films.isEmpty {
+                for film in films {
+                    do {
+                        let movie: StarWarsMovie = try await networkManager.downloadInfo(urlAbsoluteString: film)
+                        let realmMovie = Movie(
+                            movieName: movie.title,
+                            producer:  movie.producer,
+                            director:  movie.director
+                        )
+                        
+                        starWarsRealmModel.movies.append(realmMovie)
+                        
+                    } catch let error as NetworkError {
+                        await MainActor.run {
+                            router.handleError(message: error.errorDescription)
+                        }
+                    }
+                }
+            }
+            
+            await MainActor.run {
+                realmManager.save(starWarsRealmModel)
+                viewController?.finishedDownloadingDetailInfo()
+                router.succesSave()
+            }
+        }
     }
 }

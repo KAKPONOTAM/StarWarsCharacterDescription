@@ -17,6 +17,13 @@ final class SearchViewController: UIViewController {
         return tableView
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicatorView = UIActivityIndicatorView(style: .large)
+        activityIndicatorView.color = .systemGray
+        
+        return activityIndicatorView
+    }()
+    
     private lazy var favouriteButton: UIButton = {
         let button = UIButton()
         button.setTitle(ModuleTitles.favouriteButtonTitle.title, for: .normal)
@@ -65,6 +72,7 @@ extension SearchViewController {
         view.addSubview(starWarsDataTableView)
         view.addSubview(segmentedControl)
         view.addSubview(favouriteButton)
+        view.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -82,6 +90,10 @@ extension SearchViewController {
         favouriteButton.snp.makeConstraints {
             $0.top.width.height.equalTo(segmentedControl)
             $0.trailing.equalToSuperview().inset(SearchViewConstants.defaultSideInset)
+        }
+        
+        activityIndicator.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
     }
     
@@ -122,6 +134,16 @@ extension SearchViewController: UISearchBarDelegate {
 
 //MARK: - SearchViewProtocol
 extension SearchViewController: SearchViewProtocol {
+    func downloadingDetailedInfo() {
+        activityIndicator.startAnimating()
+        activityIndicator.isHidden = false
+    }
+    
+    func finishedDownloadingDetailInfo() {
+        activityIndicator.stopAnimating()
+        activityIndicator.isHidden = true
+    }
+    
     func reloadData() {
         starWarsDataTableView.reloadData()
     }
@@ -190,13 +212,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch presenter?.selectedSegment ?? .characters {
-        case .characters:
-            return SearchViewConstants.heightForCharacterRow
-            
-        case .starships:
-            return SearchViewConstants.heightForStarshipRow
-        }
+        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {

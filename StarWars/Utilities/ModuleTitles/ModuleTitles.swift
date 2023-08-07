@@ -3,6 +3,7 @@ import Foundation
 enum ModuleTitles {
     case amount
     case favouriteButtonTitle
+    case favourites
     
     var title: String? {
         switch self {
@@ -11,6 +12,9 @@ enum ModuleTitles {
             
         case .favouriteButtonTitle:
             return "Saved favourite"
+            
+        case .favourites
+            return "Favourites"
         }
     }
 }

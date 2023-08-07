@@ -14,6 +14,9 @@
 		661347642A8128DB0048A569 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347632A8128DB0048A569 /* Movie.swift */; };
 		661347672A8129000048A569 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347662A8129000048A569 /* Planet.swift */; };
 		6613476A2A8129330048A569 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347692A8129330048A569 /* String.swift */; };
+		6613476D2A8155E00048A569 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613476C2A8155E00048A569 /* Array.swift */; };
+		661347702A816D020048A569 /* SwipeConfigurationWorkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613476F2A816D020048A569 /* SwipeConfigurationWorkProtocol.swift */; };
+		661347732A81706F0048A569 /* FavouritesViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347722A81706F0048A569 /* FavouritesViewConstants.swift */; };
 		66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F222A7E9A12001DC95D /* AppDelegate.swift */; };
 		66BE8F2F2A7E9A14001DC95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F2D2A7E9A14001DC95D /* LaunchScreen.storyboard */; };
 		66BE8F372A7E9A35001DC95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F362A7E9A35001DC95D /* Assets.xcassets */; };
@@ -55,6 +58,9 @@
 		661347632A8128DB0048A569 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
 		661347662A8129000048A569 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
 		661347692A8129330048A569 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		6613476C2A8155E00048A569 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		6613476F2A816D020048A569 /* SwipeConfigurationWorkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeConfigurationWorkProtocol.swift; sourceTree = "<group>"; };
+		661347722A81706F0048A569 /* FavouritesViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewConstants.swift; sourceTree = "<group>"; };
 		66BE8F1F2A7E9A12001DC95D /* StarWars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BE8F222A7E9A12001DC95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BE8F2E2A7E9A14001DC95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -113,6 +119,7 @@
 		661347542A810A9B0048A569 /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				661347722A81706F0048A569 /* FavouritesViewConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -183,6 +190,30 @@
 			path = String;
 			sourceTree = "<group>";
 		};
+		6613476B2A8155D60048A569 /* Array */ = {
+			isa = PBXGroup;
+			children = (
+				6613476C2A8155E00048A569 /* Array.swift */,
+			);
+			path = Array;
+			sourceTree = "<group>";
+		};
+		6613476E2A816C650048A569 /* SwipeConfigurationWorkProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				6613476F2A816D020048A569 /* SwipeConfigurationWorkProtocol.swift */,
+			);
+			path = SwipeConfigurationWorkProtocol;
+			sourceTree = "<group>";
+		};
+		661347712A816D890048A569 /* AbstractInterfaces */ = {
+			isa = PBXGroup;
+			children = (
+				6613476E2A816C650048A569 /* SwipeConfigurationWorkProtocol */,
+			);
+			path = AbstractInterfaces;
+			sourceTree = "<group>";
+		};
 		66BE8F162A7E9A12001DC95D = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +277,7 @@
 		66BE8F3F2A7E9A5C001DC95D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				661347712A816D890048A569 /* AbstractInterfaces */,
 				66E1577E2A803E3D002AA583 /* ModuleTitles */,
 				66BE8F8C2A7FA48C001DC95D /* Helpers */,
 				66BE8F402A7E9A5C001DC95D /* ConfigurationProtocols */,
@@ -291,6 +323,7 @@
 		66BE8F462A7E9A5C001DC95D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				6613476B2A8155D60048A569 /* Array */,
 				661347682A8129290048A569 /* String */,
 				66BE8F7A2A7F8AA3001DC95D /* UIView */,
 				66BE8F672A7E9FD5001DC95D /* URL */,
@@ -724,9 +757,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				661347732A81706F0048A569 /* FavouritesViewConstants.swift in Sources */,
 				66BE8F4A2A7E9A5C001DC95D /* UIImage.swift in Sources */,
+				661347702A816D020048A569 /* SwipeConfigurationWorkProtocol.swift in Sources */,
 				6613475A2A810AF60048A569 /* FavouritesViewPresenter.swift in Sources */,
 				661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */,
+				6613476D2A8155E00048A569 /* Array.swift in Sources */,
 				66BE8F5D2A7E9A67001DC95D /* LaunchPresenter.swift in Sources */,
 				66BE8F862A7F9508001DC95D /* SearchViewConstants.swift in Sources */,
 				66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */,

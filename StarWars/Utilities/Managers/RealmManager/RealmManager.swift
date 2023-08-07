@@ -5,6 +5,7 @@ protocol RealmManagerProtocol: AnyObject {
     func save<T: Object>(_ model: T)
     func deleteModel<T: Object>(model: T)
     func retrieveModels<T: Object>() -> Results<T>?
+    func update(completion: @escaping () -> Void)
     
     @discardableResult func observe<T>(models: Results<T>?, completion: @escaping(Results<T>?) -> Void) -> NotificationToken?
 }
@@ -36,6 +37,14 @@ final class RealmManagerImplementation: RealmManagerProtocol {
     
     func retrieveModels<T: Object>() -> Results<T>? {
         return realm?.objects(T.self)
+    }
+    
+    func update(completion: @escaping () -> Void) {
+        do {
+            try? realm?.write {
+                completion()
+            }
+        }
     }
     
     @discardableResult func observe<T>(models: Results<T>?, completion: @escaping(Results<T>?) -> Void) -> NotificationToken? {

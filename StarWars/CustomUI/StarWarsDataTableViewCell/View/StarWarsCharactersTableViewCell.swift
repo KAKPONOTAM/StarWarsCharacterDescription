@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 
 final class StarWarsDataTableViewCell: UITableViewCell {
-    private let containerForLabel: UIView = {
+    private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
         
@@ -18,11 +18,20 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let favouriteImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(defaultImage: .favouriteImage)
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
     private let secondParameterLabel: UILabel = {
         let label = UILabel()
         label.textColor = .systemGray
         label.textAlignment = .left
         label.numberOfLines = .zero
+        label.font = .systemFont(ofSize: StarWarsDataTableViewCellConstants.secondParameterLabelFontSize)
         
         return label
     }()
@@ -48,43 +57,52 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return nil
     }
     
-    func configure(with name: String?, secondParameter: String?, amount: String?) {
+    func configure(with name: String?, secondParameter: String?, amount: String?, isAddedToFavourite: Bool) {
         nameLabel.text = name
         secondParameterLabel.text = secondParameter
         starshipDrivingAmountLabel.text = amount
+        favouriteImageView.isHidden = !isAddedToFavourite
     }
 }
 
 //MARK: - private
 extension StarWarsDataTableViewCell {
     private func addSubview() {
-        contentView.addSubview(containerForLabel)
+        contentView.addSubview(containerView)
         
-        containerForLabel.addSubview(nameLabel)
-        containerForLabel.addSubview(secondParameterLabel)
-        containerForLabel.addSubview(starshipDrivingAmountLabel)
+        containerView.addSubview(nameLabel)
+        containerView.addSubview(secondParameterLabel)
+        containerView.addSubview(starshipDrivingAmountLabel)
+        containerView.addSubview(favouriteImageView)
     }
     
     private func setupConstraints() {
         starshipDrivingAmountLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        containerForLabel.snp.makeConstraints {
+        containerView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
+            $0.top.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
+            $0.leading.equalTo(favouriteImageView.snp.trailing).offset(StarWarsDataTableViewCellConstants.nameLabelLeadingOffset)
         }
         
         secondParameterLabel.snp.makeConstraints {
             $0.top.equalTo(nameLabel.snp.bottom)
             $0.leading.equalTo(nameLabel)
-            $0.trailing.equalTo(starshipDrivingAmountLabel.snp.leading).offset(-5)
+            $0.trailing.equalTo(starshipDrivingAmountLabel.snp.leading).offset(StarWarsDataTableViewCellConstants.secondParameterLabelTrailingOffset)
         }
         
         starshipDrivingAmountLabel.snp.makeConstraints {
             $0.trailing.equalToSuperview().inset(StarWarsDataTableViewCellConstants.defaultSideInset)
             $0.top.equalTo(secondParameterLabel)
+        }
+        
+        favouriteImageView.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(StarWarsDataTableViewCellConstants.favouriteImageViewLeadingOffset)
+            $0.width.height.equalTo(StarWarsDataTableViewCellConstants.favouriteImageViewSize)
+            $0.centerY.equalToSuperview()
         }
     }
 }

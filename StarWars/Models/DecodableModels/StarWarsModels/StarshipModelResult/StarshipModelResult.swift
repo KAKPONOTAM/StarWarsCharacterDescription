@@ -11,4 +11,5 @@ struct StarshipModel: Decodable, Hashable {
     let manufacturer: String
     let pilots: [String]
     let passengers: String
+    let films: [String]?
 }

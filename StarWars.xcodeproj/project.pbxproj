@@ -17,6 +17,8 @@
 		6613476D2A8155E00048A569 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613476C2A8155E00048A569 /* Array.swift */; };
 		661347702A816D020048A569 /* SwipeConfigurationWorkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613476F2A816D020048A569 /* SwipeConfigurationWorkProtocol.swift */; };
 		661347732A81706F0048A569 /* FavouritesViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347722A81706F0048A569 /* FavouritesViewConstants.swift */; };
+		6613477E2A8175930048A569 /* StarWarsPlanet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613477D2A8175930048A569 /* StarWarsPlanet.swift */; };
+		661347812A8175DC0048A569 /* StarWarsMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347802A8175DC0048A569 /* StarWarsMovie.swift */; };
 		66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F222A7E9A12001DC95D /* AppDelegate.swift */; };
 		66BE8F2F2A7E9A14001DC95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F2D2A7E9A14001DC95D /* LaunchScreen.storyboard */; };
 		66BE8F372A7E9A35001DC95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F362A7E9A35001DC95D /* Assets.xcassets */; };
@@ -42,8 +44,6 @@
 		66BE8F8B2A7F9B1D001DC95D /* FooterViewWithLoadSpinner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F8A2A7F9B1D001DC95D /* FooterViewWithLoadSpinner.swift */; };
 		66BE8F8E2A7FA496001DC95D /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F8D2A7FA496001DC95D /* Helpers.swift */; };
 		66BE8F922A802CC3001DC95D /* StarWarsSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F912A802CC3001DC95D /* StarWarsSections.swift */; };
-		66E1577B2A803D6F002AA583 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E1577A2A803D6F002AA583 /* HeaderView.swift */; };
-		66E1577D2A803DDB002AA583 /* HeaderViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E1577C2A803DDB002AA583 /* HeaderViewConstants.swift */; };
 		66E157802A803E51002AA583 /* ModuleTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E1577F2A803E51002AA583 /* ModuleTitles.swift */; };
 		8B5DAEA86CF25DA5AFB13A04 /* Pods_StarWars.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 551F28DA28CE2BCED59A101B /* Pods_StarWars.framework */; };
 /* End PBXBuildFile section */
@@ -61,6 +61,8 @@
 		6613476C2A8155E00048A569 /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		6613476F2A816D020048A569 /* SwipeConfigurationWorkProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeConfigurationWorkProtocol.swift; sourceTree = "<group>"; };
 		661347722A81706F0048A569 /* FavouritesViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewConstants.swift; sourceTree = "<group>"; };
+		6613477D2A8175930048A569 /* StarWarsPlanet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsPlanet.swift; sourceTree = "<group>"; };
+		661347802A8175DC0048A569 /* StarWarsMovie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsMovie.swift; sourceTree = "<group>"; };
 		66BE8F1F2A7E9A12001DC95D /* StarWars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BE8F222A7E9A12001DC95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BE8F2E2A7E9A14001DC95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -88,8 +90,6 @@
 		66BE8F8A2A7F9B1D001DC95D /* FooterViewWithLoadSpinner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterViewWithLoadSpinner.swift; sourceTree = "<group>"; };
 		66BE8F8D2A7FA496001DC95D /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		66BE8F912A802CC3001DC95D /* StarWarsSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsSections.swift; sourceTree = "<group>"; };
-		66E1577A2A803D6F002AA583 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
-		66E1577C2A803DDB002AA583 /* HeaderViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewConstants.swift; sourceTree = "<group>"; };
 		66E1577F2A803E51002AA583 /* ModuleTitles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleTitles.swift; sourceTree = "<group>"; };
 		E0ED04AAE9C5A9E4FB26ACC5 /* Pods-StarWars.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StarWars.release.xcconfig"; path = "Target Support Files/Pods-StarWars/Pods-StarWars.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,6 +212,22 @@
 				6613476E2A816C650048A569 /* SwipeConfigurationWorkProtocol */,
 			);
 			path = AbstractInterfaces;
+			sourceTree = "<group>";
+		};
+		6613477C2A8175820048A569 /* StarWarsPlanet */ = {
+			isa = PBXGroup;
+			children = (
+				6613477D2A8175930048A569 /* StarWarsPlanet.swift */,
+			);
+			path = StarWarsPlanet;
+			sourceTree = "<group>";
+		};
+		6613477F2A8175CC0048A569 /* StarWarsMovie */ = {
+			isa = PBXGroup;
+			children = (
+				661347802A8175DC0048A569 /* StarWarsMovie.swift */,
+			);
+			path = StarWarsMovie;
 			sourceTree = "<group>";
 		};
 		66BE8F162A7E9A12001DC95D = {
@@ -472,6 +488,8 @@
 		66BE8F6B2A7EA7F0001DC95D /* StarWarsModels */ = {
 			isa = PBXGroup;
 			children = (
+				6613477F2A8175CC0048A569 /* StarWarsMovie */,
+				6613477C2A8175820048A569 /* StarWarsPlanet */,
 				66BE8F712A7EE262001DC95D /* StarshipModelResult */,
 				66BE8F6E2A7EE220001DC95D /* CharacterModel */,
 			);
@@ -497,7 +515,6 @@
 		66BE8F742A7F89FB001DC95D /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
-				66E157772A803D51002AA583 /* HeaderView */,
 				66BE8F872A7F9AE1001DC95D /* FooterViewWithLoadSpinner */,
 				66BE8F7D2A7F8D6E001DC95D /* StarWarsDataTableViewCell */,
 			);
@@ -591,31 +608,6 @@
 				66BE8F912A802CC3001DC95D /* StarWarsSections.swift */,
 			);
 			path = StarWarsSections;
-			sourceTree = "<group>";
-		};
-		66E157772A803D51002AA583 /* HeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				66E157792A803D63002AA583 /* View */,
-				66E157782A803D5E002AA583 /* Constants */,
-			);
-			path = HeaderView;
-			sourceTree = "<group>";
-		};
-		66E157782A803D5E002AA583 /* Constants */ = {
-			isa = PBXGroup;
-			children = (
-				66E1577C2A803DDB002AA583 /* HeaderViewConstants.swift */,
-			);
-			path = Constants;
-			sourceTree = "<group>";
-		};
-		66E157792A803D63002AA583 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				66E1577A2A803D6F002AA583 /* HeaderView.swift */,
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		66E1577E2A803E3D002AA583 /* ModuleTitles */ = {
@@ -759,6 +751,7 @@
 			files = (
 				661347732A81706F0048A569 /* FavouritesViewConstants.swift in Sources */,
 				66BE8F4A2A7E9A5C001DC95D /* UIImage.swift in Sources */,
+				6613477E2A8175930048A569 /* StarWarsPlanet.swift in Sources */,
 				661347702A816D020048A569 /* SwipeConfigurationWorkProtocol.swift in Sources */,
 				6613475A2A810AF60048A569 /* FavouritesViewPresenter.swift in Sources */,
 				661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */,
@@ -770,7 +763,6 @@
 				66BE8F492A7E9A5C001DC95D /* NetworkManager.swift in Sources */,
 				66E157802A803E51002AA583 /* ModuleTitles.swift in Sources */,
 				66BE8F5F2A7E9A67001DC95D /* SearchViewPresenter.swift in Sources */,
-				66E1577B2A803D6F002AA583 /* HeaderView.swift in Sources */,
 				661347672A8129000048A569 /* Planet.swift in Sources */,
 				6613476A2A8129330048A569 /* String.swift in Sources */,
 				66BE8F482A7E9A5C001DC95D /* PresenterConfigurationProtocol.swift in Sources */,
@@ -778,9 +770,9 @@
 				66BE8F602A7E9A67001DC95D /* SearchViewController.swift in Sources */,
 				6613475D2A8116610048A569 /* RealmManager.swift in Sources */,
 				66BE8F5E2A7E9A67001DC95D /* LaunchViewController.swift in Sources */,
+				661347812A8175DC0048A569 /* StarWarsMovie.swift in Sources */,
 				66BE8F922A802CC3001DC95D /* StarWarsSections.swift in Sources */,
 				66BE8F512A7E9A62001DC95D /* DefaultRouterProtocol.swift in Sources */,
-				66E1577D2A803DDB002AA583 /* HeaderViewConstants.swift in Sources */,
 				661347642A8128DB0048A569 /* Movie.swift in Sources */,
 				66BE8F3E2A7E9A44001DC95D /* AppBuilder.swift in Sources */,
 				66BE8F652A7E9FB4001DC95D /* NetworkError.swift in Sources */,

@@ -45,6 +45,24 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let planetDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray2
+        label.font = .systemFont(ofSize: StarWarsDataTableViewCellConstants.secondParameterLabelFontSize)
+        label.numberOfLines = .zero
+        
+        return label
+    }()
+    
+    private let movieDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .systemGray2
+        label.font = .systemFont(ofSize: StarWarsDataTableViewCellConstants.secondParameterLabelFontSize)
+        label.numberOfLines = .zero
+        
+        return label
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubview()
@@ -57,11 +75,13 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         return nil
     }
     
-    func configure(with name: String?, secondParameter: String?, amount: String?, isAddedToFavourite: Bool) {
+    func configure(with name: String?, secondParameter: String?, amount: String?, isAddedToFavourite: Bool, planetDescription: String? = .none, movieDescription: String? = .none) {
         nameLabel.text = name
         secondParameterLabel.text = secondParameter
         starshipDrivingAmountLabel.text = amount
         favouriteImageView.isHidden = !isAddedToFavourite
+        planetDescriptionLabel.text = planetDescription
+        movieDescriptionLabel.text = movieDescription
     }
 }
 
@@ -74,6 +94,8 @@ extension StarWarsDataTableViewCell {
         containerView.addSubview(secondParameterLabel)
         containerView.addSubview(starshipDrivingAmountLabel)
         containerView.addSubview(favouriteImageView)
+        containerView.addSubview(planetDescriptionLabel)
+        containerView.addSubview(movieDescriptionLabel)
     }
     
     private func setupConstraints() {
@@ -103,6 +125,17 @@ extension StarWarsDataTableViewCell {
             $0.leading.equalToSuperview().inset(StarWarsDataTableViewCellConstants.favouriteImageViewLeadingOffset)
             $0.width.height.equalTo(StarWarsDataTableViewCellConstants.favouriteImageViewSize)
             $0.centerY.equalToSuperview()
+        }
+        
+        planetDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(secondParameterLabel.snp.bottom)
+            $0.leading.trailing.equalTo(secondParameterLabel)
+        }
+        
+        movieDescriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(planetDescriptionLabel.snp.bottom)
+            $0.leading.trailing.equalTo(secondParameterLabel)
+            $0.bottom.equalToSuperview()
         }
     }
 }

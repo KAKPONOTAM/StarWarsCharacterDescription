@@ -7,9 +7,9 @@ final class StarWarsRealmModel: Object {
     dynamic var secondParameter: String = .emptyString
     dynamic var amount: String = .emptyString
     dynamic var primaryKey = UUID().uuidString
+    dynamic var planet: Planet? = .none
     
     var movies = List<Movie>()
-    var planets = List<Planet>()
     
     convenience init(name: String, secondParameter: String, amount: String) {
         self.init()

@@ -4,7 +4,6 @@ import SnapKit
 final class FavouritesViewController: UIViewController {
     private var presenter: FavouritesViewPresenterProtocol?
     
-    
     private lazy var starWarsDataTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
@@ -14,7 +13,7 @@ final class FavouritesViewController: UIViewController {
         
         return tableView
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubview()

@@ -8,7 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347572A810ACD0048A569 /* FavouritesViewController.swift */; };
-		6613475A2A810AF60048A569 /* FavoritesViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347592A810AF60048A569 /* FavoritesViewPresenter.swift */; };
+		6613475A2A810AF60048A569 /* FavouritesViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347592A810AF60048A569 /* FavouritesViewPresenter.swift */; };
+		6613475D2A8116610048A569 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613475C2A8116610048A569 /* RealmManager.swift */; };
+		661347602A8126280048A569 /* StarWarsDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6613475F2A8126280048A569 /* StarWarsDataModel.swift */; };
+		661347642A8128DB0048A569 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347632A8128DB0048A569 /* Movie.swift */; };
+		661347672A8129000048A569 /* Planet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347662A8129000048A569 /* Planet.swift */; };
+		6613476A2A8129330048A569 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 661347692A8129330048A569 /* String.swift */; };
 		66BE8F232A7E9A12001DC95D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66BE8F222A7E9A12001DC95D /* AppDelegate.swift */; };
 		66BE8F2F2A7E9A14001DC95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F2D2A7E9A14001DC95D /* LaunchScreen.storyboard */; };
 		66BE8F372A7E9A35001DC95D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 66BE8F362A7E9A35001DC95D /* Assets.xcassets */; };
@@ -44,7 +49,12 @@
 		3643F34339E03D09F95E92FE /* Pods-StarWars.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StarWars.debug.xcconfig"; path = "Target Support Files/Pods-StarWars/Pods-StarWars.debug.xcconfig"; sourceTree = "<group>"; };
 		551F28DA28CE2BCED59A101B /* Pods_StarWars.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StarWars.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		661347572A810ACD0048A569 /* FavouritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewController.swift; sourceTree = "<group>"; };
-		661347592A810AF60048A569 /* FavoritesViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewPresenter.swift; sourceTree = "<group>"; };
+		661347592A810AF60048A569 /* FavouritesViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavouritesViewPresenter.swift; sourceTree = "<group>"; };
+		6613475C2A8116610048A569 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
+		6613475F2A8126280048A569 /* StarWarsDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarWarsDataModel.swift; sourceTree = "<group>"; };
+		661347632A8128DB0048A569 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		661347662A8129000048A569 /* Planet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Planet.swift; sourceTree = "<group>"; };
+		661347692A8129330048A569 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		66BE8F1F2A7E9A12001DC95D /* StarWars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWars.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		66BE8F222A7E9A12001DC95D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		66BE8F2E2A7E9A14001DC95D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -90,14 +100,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		661347532A810A8D0048A569 /* FavoritesViewController */ = {
+		661347532A810A8D0048A569 /* FavouritesViewController */ = {
 			isa = PBXGroup;
 			children = (
 				661347562A810ABE0048A569 /* View */,
 				661347552A810AA80048A569 /* Presenter */,
 				661347542A810A9B0048A569 /* Constants */,
 			);
-			path = FavoritesViewController;
+			path = FavouritesViewController;
 			sourceTree = "<group>";
 		};
 		661347542A810A9B0048A569 /* Constants */ = {
@@ -110,7 +120,7 @@
 		661347552A810AA80048A569 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				661347592A810AF60048A569 /* FavoritesViewPresenter.swift */,
+				661347592A810AF60048A569 /* FavouritesViewPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -121,6 +131,56 @@
 				661347572A810ACD0048A569 /* FavouritesViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		6613475B2A8116560048A569 /* RealmManager */ = {
+			isa = PBXGroup;
+			children = (
+				6613475C2A8116610048A569 /* RealmManager.swift */,
+			);
+			path = RealmManager;
+			sourceTree = "<group>";
+		};
+		6613475E2A8126130048A569 /* RealmModels */ = {
+			isa = PBXGroup;
+			children = (
+				661347652A8128F80048A569 /* Planet */,
+				661347622A8128D20048A569 /* Movie */,
+				661347612A8128B20048A569 /* StarWarsDataModel */,
+			);
+			path = RealmModels;
+			sourceTree = "<group>";
+		};
+		661347612A8128B20048A569 /* StarWarsDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				6613475F2A8126280048A569 /* StarWarsDataModel.swift */,
+			);
+			path = StarWarsDataModel;
+			sourceTree = "<group>";
+		};
+		661347622A8128D20048A569 /* Movie */ = {
+			isa = PBXGroup;
+			children = (
+				661347632A8128DB0048A569 /* Movie.swift */,
+			);
+			path = Movie;
+			sourceTree = "<group>";
+		};
+		661347652A8128F80048A569 /* Planet */ = {
+			isa = PBXGroup;
+			children = (
+				661347662A8129000048A569 /* Planet.swift */,
+			);
+			path = Planet;
+			sourceTree = "<group>";
+		};
+		661347682A8129290048A569 /* String */ = {
+			isa = PBXGroup;
+			children = (
+				661347692A8129330048A569 /* String.swift */,
+			);
+			path = String;
 			sourceTree = "<group>";
 		};
 		66BE8F162A7E9A12001DC95D = {
@@ -214,6 +274,7 @@
 		66BE8F432A7E9A5C001DC95D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				6613475B2A8116560048A569 /* RealmManager */,
 				66BE8F442A7E9A5C001DC95D /* NetworkManager */,
 			);
 			path = Managers;
@@ -230,6 +291,7 @@
 		66BE8F462A7E9A5C001DC95D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				661347682A8129290048A569 /* String */,
 				66BE8F7A2A7F8AA3001DC95D /* UIView */,
 				66BE8F672A7E9FD5001DC95D /* URL */,
 				66BE8F662A7E9FCB001DC95D /* UIImage */,
@@ -265,7 +327,7 @@
 		66BE8F522A7E9A67001DC95D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				661347532A810A8D0048A569 /* FavoritesViewController */,
+				661347532A810A8D0048A569 /* FavouritesViewController */,
 				66BE8F532A7E9A67001DC95D /* LaucnhViewController */,
 				66BE8F582A7E9A67001DC95D /* SearchViewController */,
 			);
@@ -326,6 +388,7 @@
 		66BE8F612A7E9F9B001DC95D /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				6613475E2A8126130048A569 /* RealmModels */,
 				66BE8F8F2A802CA2001DC95D /* ViewModels */,
 				66BE8F6A2A7EA7E2001DC95D /* DecodableModels */,
 				66BE8F622A7E9F9F001DC95D /* ErrorModels */,
@@ -662,7 +725,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66BE8F4A2A7E9A5C001DC95D /* UIImage.swift in Sources */,
-				6613475A2A810AF60048A569 /* FavoritesViewPresenter.swift in Sources */,
+				6613475A2A810AF60048A569 /* FavouritesViewPresenter.swift in Sources */,
 				661347582A810ACD0048A569 /* FavouritesViewController.swift in Sources */,
 				66BE8F5D2A7E9A67001DC95D /* LaunchPresenter.swift in Sources */,
 				66BE8F862A7F9508001DC95D /* SearchViewConstants.swift in Sources */,
@@ -672,13 +735,17 @@
 				66E157802A803E51002AA583 /* ModuleTitles.swift in Sources */,
 				66BE8F5F2A7E9A67001DC95D /* SearchViewPresenter.swift in Sources */,
 				66E1577B2A803D6F002AA583 /* HeaderView.swift in Sources */,
+				661347672A8129000048A569 /* Planet.swift in Sources */,
+				6613476A2A8129330048A569 /* String.swift in Sources */,
 				66BE8F482A7E9A5C001DC95D /* PresenterConfigurationProtocol.swift in Sources */,
 				66BE8F702A7EE238001DC95D /* CharacterModelResult.swift in Sources */,
 				66BE8F602A7E9A67001DC95D /* SearchViewController.swift in Sources */,
+				6613475D2A8116610048A569 /* RealmManager.swift in Sources */,
 				66BE8F5E2A7E9A67001DC95D /* LaunchViewController.swift in Sources */,
 				66BE8F922A802CC3001DC95D /* StarWarsSections.swift in Sources */,
 				66BE8F512A7E9A62001DC95D /* DefaultRouterProtocol.swift in Sources */,
 				66E1577D2A803DDB002AA583 /* HeaderViewConstants.swift in Sources */,
+				661347642A8128DB0048A569 /* Movie.swift in Sources */,
 				66BE8F3E2A7E9A44001DC95D /* AppBuilder.swift in Sources */,
 				66BE8F652A7E9FB4001DC95D /* NetworkError.swift in Sources */,
 				66BE8F832A7F8ED7001DC95D /* StarWarsDataTableViewCellConstants.swift in Sources */,
@@ -688,6 +755,7 @@
 				66BE8F8B2A7F9B1D001DC95D /* FooterViewWithLoadSpinner.swift in Sources */,
 				66BE8F3D2A7E9A44001DC95D /* ModuleBuilder.swift in Sources */,
 				66BE8F7C2A7F8AB0001DC95D /* UIView.swift in Sources */,
+				661347602A8126280048A569 /* StarWarsDataModel.swift in Sources */,
 				66BE8F502A7E9A62001DC95D /* MainRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

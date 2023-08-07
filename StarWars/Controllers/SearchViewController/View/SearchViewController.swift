@@ -194,7 +194,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         switch presenter?.selectedSegment ?? .characters {
         case .starships:
-           return 30
+            return SearchViewConstants.heightForStarShipSection
             
         default:
             return .zero

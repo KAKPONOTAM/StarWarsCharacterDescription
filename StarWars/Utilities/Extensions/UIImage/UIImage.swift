@@ -3,6 +3,7 @@ import UIKit
 extension UIImage {
     enum DefaultImages: String {
         case launchImage
+        case favouriteImage
     }
 }
 

@@ -1,21 +1,30 @@
 import Foundation
+import RealmSwift
 
-protocol SearchViewPresenterProtocol {
+protocol SearchViewPresenterProtocol: SwipeConfigurationWorkProtocol {
     var characterModelResult: CharacterModelResult { get }
     var starshipModelResult: StarshipModelResult { get }
+    var selectedSegment: StarWarsPresentationModels { get }
     
     func downloadedModelsIsConfigured()
+    func selectionDidChange(with index: Int)
+    func favouriteButtonTapped()
+}
+
+protocol SearchViewPresenterTextConfigurationProtocol {
     func textDidChange(with text: String)
     func textIsEmpty()
 }
 
-protocol SearchViewPresentDownloadProtocol {
+protocol SearchViewPresenterDownloadProtocol {
     func willDisplayCell(at indexPath: IndexPath)
 }
 
 protocol SearchViewProtocol: AnyObject {
     func downloadingNewPage()
+    func downloadingDetailedInfo()
     func newPageIsDownloaded()
+    func finishedDownloadingDetailInfo()
     
     func reloadData()
 }
@@ -26,14 +35,21 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
     
     private let router: MainRouterProtocol
     private let networkManager: NetworkManagerProtocol
+    private let realmManager: RealmManagerProtocol
     
     private var filteredCharacterModelResult: CharacterModelResult
     private var filteredStarshipModelResult: StarshipModelResult
+    private var starWarsSections = StarWarsPresentationModels.allCases
+    private var realmModels: [StarWarsRealmModel] {
+        guard let models: Results<StarWarsRealmModel> = realmManager.retrieveModels() else { return .emptyCollection }
+        return Array(models)
+    }
     
     var characterModelResult: CharacterModelResult
     var starshipModelResult: StarshipModelResult
+    var selectedSegment: StarWarsPresentationModels = .characters
     
-    init(viewController: SearchViewProtocol?, router: MainRouterProtocol, networkManager: NetworkManagerProtocol, characterModelResult: CharacterModelResult, starshipModelResult: StarshipModelResult) {
+    init(viewController: SearchViewProtocol?, router: MainRouterProtocol, networkManager: NetworkManagerProtocol, characterModelResult: CharacterModelResult, starshipModelResult: StarshipModelResult, realmManager: RealmManagerProtocol) {
         self.viewController = viewController
         self.router = router
         self.networkManager = networkManager
@@ -41,14 +57,114 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
         self.starshipModelResult = starshipModelResult
         self.filteredStarshipModelResult = starshipModelResult
         self.filteredCharacterModelResult = characterModelResult
+        self.realmManager = realmManager
     }
     
     func downloadedModelsIsConfigured() {
         viewController?.downloadingNewPage()
     }
     
+    func selectionDidChange(with index: Int) {
+        let selectedSegment = starWarsSections[index]
+        self.selectedSegment = selectedSegment
+        
+        viewController?.reloadData()
+    }
+    
+    //MARK: - this method from SwipeConfigurationWorkProtocol (configuring realm model before save)
+    func didSelectSwipeConfigurationItem(at indexPath: IndexPath) {
+        let starWarsRealmModel = StarWarsRealmModel()
+        
+        switch selectedSegment {
+        case .characters:
+            let selectedModel = characterModelResult.results[indexPath.section]
+            if realmModels.contains(where: { $0.name == selectedModel.name }) {
+                router.handleError(message: ErrorTitles.savingSameModel.title)
+                return
+            }
+            
+            starWarsRealmModel.name = selectedModel.name
+            starWarsRealmModel.secondParameter = selectedModel.gender ?? .emptyString
+            starWarsRealmModel.amount = "\(selectedModel.starships?.count ?? .zero)"
+            
+            downloadCharactersDetailedInfo(indexPath: indexPath, starWarsRealmModel: starWarsRealmModel)
+            
+        case .starships:
+            let selectedModel = starshipModelResult.results[indexPath.section]
+            if realmModels.contains(where: { $0.name == """
+                                 \(selectedModel.name),
+                                 \(selectedModel.model)
+                                 """ }) {
+                router.handleError(message: ErrorTitles.savingSameModel.title)
+                return
+            }
+            
+            starWarsRealmModel.name = """
+                                 \(selectedModel.name),
+                                 \(selectedModel.model)
+                                 """
+            starWarsRealmModel.secondParameter = selectedModel.manufacturer
+            starWarsRealmModel.amount = selectedModel.passengers
+            
+            downloadStarshipDetailedInfo(indexPath: indexPath, starWarsRealmModel: starWarsRealmModel)
+            
+        }
+    }
+    
+    func favouriteButtonTapped() {
+        router.pushFavouritesViewController()
+    }
+}
+
+//MARK: - SearchViewPresentDownloadProtocol (download other models (depends selected segment) if we saw all, which downloaded before)
+extension SearchViewPresenterImplementation: SearchViewPresenterDownloadProtocol {
+    func willDisplayCell(at indexPath: IndexPath) {
+        if indexPath.section == characterModelResult.results.count - 1,
+           let nextPageURLAbsoluteString = selectedSegment == .characters ? characterModelResult.next : starshipModelResult.next {
+            viewController?.downloadingNewPage()
+            Task {
+                do {
+                    switch selectedSegment {
+                    case .characters:
+                        let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                        
+                        filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
+                        characterModelResult.results.append(contentsOf: newCharacters.results)
+                        characterModelResult.next = newCharacters.next
+                        
+                    case .starships:
+                        let newStarships: StarshipModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
+                        
+                        filteredStarshipModelResult.results.append(contentsOf: newStarships.results)
+                        starshipModelResult.results.append(contentsOf: newStarships.results)
+                        starshipModelResult.next = newStarships.next
+                    }
+                    
+                    await MainActor.run {
+                        viewController?.newPageIsDownloaded()
+                        viewController?.reloadData()
+                    }
+                    
+                } catch let error as NetworkError {
+                    await MainActor.run {
+                        router.handleError(message: error.errorDescription)
+                    }
+                }
+            }
+        }
+    }
+}
+
+//MARK: - SearchViewPresenterTextConfigurationProtocol (present all downloaded models (depends selected segment) if text is empty)
+extension SearchViewPresenterImplementation: SearchViewPresenterTextConfigurationProtocol {
     func textIsEmpty() {
-        characterModelResult.results = filteredCharacterModelResult.results
+        switch selectedSegment {
+        case .characters:
+            characterModelResult.results = filteredCharacterModelResult.results
+            
+        case .starships:
+            starshipModelResult.results = filteredStarshipModelResult.results
+        }
         
         viewController?.reloadData()
     }
@@ -57,32 +173,107 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
         let minimumSearchSymbolsCount = 2
         guard text.count >= minimumSearchSymbolsCount else { return }
         
-        let filteredCharacters = Array(Set(filteredCharacterModelResult.results))
-        let filteredCharacterResults = filteredCharacters.filter { $0.name.uppercased().contains(text.uppercased()) }
-        
-        characterModelResult.results = filteredCharacterResults
+        switch selectedSegment {
+        case .characters:
+            filterCharacterModel(with: text)
+            
+        case .starships:
+            filterStarshipModelResult(with: text)
+        }
         
         viewController?.reloadData()
     }
 }
 
-//MARK: - SearchViewPresentDownloadProtocol
-extension SearchViewPresenterImplementation: SearchViewPresentDownloadProtocol {
-    func willDisplayCell(at indexPath: IndexPath) {
-        if indexPath.row == characterModelResult.results.count - 1,
-           let nextPageURLAbsoluteString = characterModelResult.next {
-            viewController?.downloadingNewPage()
-            Task {
-                let newCharacters: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: nextPageURLAbsoluteString)
-                
-                filteredCharacterModelResult.results.append(contentsOf: newCharacters.results)
-                characterModelResult.results.append(contentsOf: newCharacters.results)
-                characterModelResult.next = newCharacters.next
-                
-                await MainActor.run {
-                    viewController?.newPageIsDownloaded()
-                    viewController?.reloadData()
+//MARK: - private (filter model depends selected segment)
+extension SearchViewPresenterImplementation {
+    private func filterCharacterModel(with text: String) {
+        let filteredCharacters = Array(Set(filteredCharacterModelResult.results))
+        let filteredCharacterResults = filteredCharacters.filter { $0.name.uppercased().contains(text.uppercased()) }
+        
+        characterModelResult.results = filteredCharacterResults
+    }
+    
+    private func filterStarshipModelResult(with text: String) {
+        let filteredStarships = Array(Set(filteredStarshipModelResult.results))
+        let filteredStarshipResults = filteredStarships.filter { $0.name.uppercased().contains(text.uppercased()) }
+        
+        starshipModelResult.results = filteredStarshipResults
+    }
+    
+    private func downloadCharactersDetailedInfo(indexPath: IndexPath, starWarsRealmModel: StarWarsRealmModel) {
+        viewController?.downloadingDetailedInfo()
+        
+        Task {
+            let selectedModel = characterModelResult.results[indexPath.section]
+            let starWarsPlanet: StarWarsPlanet = try await networkManager.downloadInfo(urlAbsoluteString: selectedModel.homeworld)
+            let realmPlanet = Planet(
+                planetName: starWarsPlanet.name,
+                diameter: starWarsPlanet.diameter,
+                populationAmount: starWarsPlanet.population
+            )
+            
+            starWarsRealmModel.planet = realmPlanet
+            
+            if let films = selectedModel.films,
+               !films.isEmpty {
+                for film in films {
+                    do {
+                        let movie: StarWarsMovie = try await networkManager.downloadInfo(urlAbsoluteString: film)
+                        let realmMovie = Movie(
+                            movieName: movie.title,
+                            producer: movie.producer,
+                            director: movie.director
+                        )
+                        
+                        starWarsRealmModel.movies.append(realmMovie)
+                        
+                    } catch let error as NetworkError {
+                        await MainActor.run {
+                            router.handleError(message: error.errorDescription)
+                        }
+                    }
                 }
+            }
+            
+            await MainActor.run {
+                realmManager.save(starWarsRealmModel)
+                viewController?.finishedDownloadingDetailInfo()
+                router.succesSave()
+            }
+        }
+    }
+    
+    private func downloadStarshipDetailedInfo(indexPath: IndexPath, starWarsRealmModel: StarWarsRealmModel) {
+        viewController?.downloadingDetailedInfo()
+        
+        Task {
+            let selectedModel = starshipModelResult.results[indexPath.section]
+            if let films = selectedModel.films,
+               !films.isEmpty {
+                for film in films {
+                    do {
+                        let movie: StarWarsMovie = try await networkManager.downloadInfo(urlAbsoluteString: film)
+                        let realmMovie = Movie(
+                            movieName: movie.title,
+                            producer:  movie.producer,
+                            director:  movie.director
+                        )
+                        
+                        starWarsRealmModel.movies.append(realmMovie)
+                        
+                    } catch let error as NetworkError {
+                        await MainActor.run {
+                            router.handleError(message: error.errorDescription)
+                        }
+                    }
+                }
+            }
+            
+            await MainActor.run {
+                realmManager.save(starWarsRealmModel)
+                viewController?.finishedDownloadingDetailInfo()
+                router.succesSave()
             }
         }
     }

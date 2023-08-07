@@ -17,6 +17,18 @@ final class SearchViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var favouriteButton: UIButton = {
+        let button = UIButton()
+        button.setTitle(ModuleTitles.favouriteButtonTitle.title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: SearchViewConstants.favouriteButtonFontSize)
+        button.setTitleColor(.blue, for: .normal)
+        button.backgroundColor = .systemGray4
+        button.layer.cornerRadius = SearchViewConstants.favouriteButtonCornerRadius
+        button.addTarget(self, action: #selector(favouriteButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     private lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.insertSegment(withTitle: StarWarsPresentationModels.characters.title, at: .zero, animated: false)
@@ -40,6 +52,11 @@ final class SearchViewController: UIViewController {
     private func selectionDidChange() {
         presenter?.selectionDidChange(with: segmentedControl.selectedSegmentIndex)
     }
+    
+    @objc
+    private func favouriteButtonTapped() {
+        presenter?.favouriteButtonTapped()
+    }
 }
 
 //MARK: - private
@@ -47,18 +64,24 @@ extension SearchViewController {
     private func addSubview() {
         view.addSubview(starWarsDataTableView)
         view.addSubview(segmentedControl)
+        view.addSubview(favouriteButton)
     }
     
     private func setupConstraints() {
         segmentedControl.snp.makeConstraints {
             $0.height.equalTo(SearchViewConstants.heightForSegmentedControl)
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(SearchViewConstants.segmentedControlTopOffset)
-            $0.centerX.equalToSuperview()
+            $0.leading.equalToSuperview().inset(SearchViewConstants.defaultSideInset)
         }
         
         starWarsDataTableView.snp.makeConstraints {
             $0.top.equalTo(segmentedControl.snp.bottom).offset(SearchViewConstants.starWarsTableViewTopOffset)
             $0.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        favouriteButton.snp.makeConstraints {
+            $0.top.width.height.equalTo(segmentedControl)
+            $0.trailing.equalToSuperview().inset(SearchViewConstants.defaultSideInset)
         }
     }
     
@@ -147,7 +170,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             let starshipAmount = presenter.characterModelResult.results[indexPath.section].starships?.count
             
             
-            cell.configure(with: starWarsDataName, secondParameter: gender, amount: "Driving starship amount: \(starshipAmount ?? .zero)")
+            cell.configure(with: starWarsDataName, secondParameter: gender, amount: "Driving starship amount: \(starshipAmount ?? .zero)", isAddedToFavourite: false)
             
             return cell
             
@@ -160,7 +183,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
             cell.configure(with: """
                                  \(starshipName),
                                  \(model)
-                                 """ , secondParameter: manufacturer, amount: passengersAmount)
+                                 """ , secondParameter: manufacturer, amount: passengersAmount, isAddedToFavourite: false)
         }
         
        return cell
@@ -169,39 +192,25 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch presenter?.selectedSegment ?? .characters {
         case .characters:
-            return SearchViewConstants.defaultHeightForRow
+            return SearchViewConstants.heightForCharacterRow
             
         case .starships:
-            return UITableView.automaticDimension
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        switch presenter?.selectedSegment ?? .characters {
-        case .starships:
-            guard section == .zero else { return .none }
-            
-            let view = HeaderView()
-            view.backgroundColor = .clear
-            
-            return view
-            
-        default:
-            return .none
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        switch presenter?.selectedSegment ?? .characters {
-        case .starships:
-            return SearchViewConstants.heightForStarShipSection
-            
-        default:
-            return .zero
+            return SearchViewConstants.heightForStarshipRow
         }
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         presenter?.willDisplayCell(at: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let addToFavoriteAction = UIContextualAction(style: .normal, title: .none) { action, view, handler in
+            self.presenter?.didSelectSwipeConfigurationItem(at: indexPath)
+            handler(true)
+        }
+        
+        addToFavoriteAction.image = UIImage(defaultImage: .favouriteImage)
+        
+        return UISwipeActionsConfiguration(actions: [addToFavoriteAction])
     }
 }

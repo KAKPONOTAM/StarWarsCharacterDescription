@@ -29,7 +29,7 @@ final class LaunchPresenterImplementation: LaunchViewPresenterProtocol {
                 let characterModelsResult: CharacterModelResult = try await networkManager.downloadInfo(urlAbsoluteString: URL.DefaultURLAbsoluteStrings.starWarsPeople.urlAbsoluteString)
                 
                 await MainActor.run {
-                    router.changeRootViewController(networkManager: networkManager, characterModelResult: characterModelsResult, starshipModelResult: starshipModelsResult)
+                    router.changeRootViewController(characterModelResult: characterModelsResult, starshipModelResult: starshipModelsResult)
                 }
                 
             } catch let error as NetworkError {

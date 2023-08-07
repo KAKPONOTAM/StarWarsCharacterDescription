@@ -1,12 +1,14 @@
 import Foundation
+import RealmSwift
 
-protocol SearchViewPresenterProtocol {
+protocol SearchViewPresenterProtocol: SwipeConfigurationWorkProtocol {
     var characterModelResult: CharacterModelResult { get }
     var starshipModelResult: StarshipModelResult { get }
     var selectedSegment: StarWarsPresentationModels { get }
     
     func downloadedModelsIsConfigured()
     func selectionDidChange(with index: Int)
+    func favouriteButtonTapped()
 }
 
 protocol SearchViewPresenterTextConfigurationProtocol {
@@ -31,16 +33,21 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
     
     private let router: MainRouterProtocol
     private let networkManager: NetworkManagerProtocol
+    private let realmManager: RealmManagerProtocol
     
     private var filteredCharacterModelResult: CharacterModelResult
     private var filteredStarshipModelResult: StarshipModelResult
     private var starWarsSections = StarWarsPresentationModels.allCases
+    private var realmModels: [StarWarsRealmModel] {
+        guard let models: Results<StarWarsRealmModel> = realmManager.retrieveModels() else { return .emptyCollection }
+        return Array(models)
+    }
     
     var characterModelResult: CharacterModelResult
     var starshipModelResult: StarshipModelResult
     var selectedSegment: StarWarsPresentationModels = .characters
     
-    init(viewController: SearchViewProtocol?, router: MainRouterProtocol, networkManager: NetworkManagerProtocol, characterModelResult: CharacterModelResult, starshipModelResult: StarshipModelResult) {
+    init(viewController: SearchViewProtocol?, router: MainRouterProtocol, networkManager: NetworkManagerProtocol, characterModelResult: CharacterModelResult, starshipModelResult: StarshipModelResult, realmManager: RealmManagerProtocol) {
         self.viewController = viewController
         self.router = router
         self.networkManager = networkManager
@@ -48,6 +55,7 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
         self.starshipModelResult = starshipModelResult
         self.filteredStarshipModelResult = starshipModelResult
         self.filteredCharacterModelResult = characterModelResult
+        self.realmManager = realmManager
     }
     
     func downloadedModelsIsConfigured() {
@@ -59,6 +67,47 @@ final class SearchViewPresenterImplementation: SearchViewPresenterProtocol {
         self.selectedSegment = selectedSegment
         
         viewController?.reloadData()
+    }
+    
+    func didSelectSwipeConfigurationItem(at indexPath: IndexPath) {
+        let starWarsRealmModel = StarWarsRealmModel()
+        
+        switch selectedSegment {
+        case .characters:
+            let selectedModel = characterModelResult.results[indexPath.section]
+            if realmModels.contains(where: { $0.name == selectedModel.name }) {
+                router.handleError(message: ErrorTitles.savingSameModel.title)
+                return
+            }
+            
+            starWarsRealmModel.name = selectedModel.name
+            starWarsRealmModel.secondParameter = selectedModel.gender ?? .emptyString
+            starWarsRealmModel.amount = "\(selectedModel.starships?.count ?? .zero)"
+            
+        case .starships:
+            let selectedModel = starshipModelResult.results[indexPath.section]
+            if realmModels.contains(where: { $0.name == """
+                                 \(selectedModel.name),
+                                 \(selectedModel.model)
+                                 """ }) {
+                router.handleError(message: ErrorTitles.savingSameModel.title)
+                return
+            }
+            
+            starWarsRealmModel.name = """
+                                 \(selectedModel.name),
+                                 \(selectedModel.model)
+                                 """
+            starWarsRealmModel.secondParameter = selectedModel.manufacturer
+            starWarsRealmModel.amount = selectedModel.passengers
+        }
+        
+        realmManager.save(starWarsRealmModel)
+        router.succesSave()
+    }
+    
+    func favouriteButtonTapped() {
+        router.pushFavouritesViewController()
     }
 }
 

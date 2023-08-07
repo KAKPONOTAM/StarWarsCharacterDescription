@@ -4,7 +4,7 @@ import SnapKit
 final class StarWarsDataTableViewCell: UITableViewCell {
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         
         return view
     }()
@@ -69,6 +69,7 @@ final class StarWarsDataTableViewCell: UITableViewCell {
         setupConstraints()
         
         selectionStyle = .none
+        backgroundColor = .white
     }
     
     required init?(coder: NSCoder) {

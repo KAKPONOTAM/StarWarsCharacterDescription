@@ -13,6 +13,7 @@ final class SearchViewController: UIViewController {
         tableView.register(StarWarsDataTableViewCell.self, forCellReuseIdentifier: StarWarsDataTableViewCell.reuseIdentifier)
         tableView.tableFooterView = footerView
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .white
         
         return tableView
     }()
@@ -161,6 +162,13 @@ extension SearchViewController: SearchViewProtocol {
 extension SearchViewController: PresenterConfigurationProtocol {
     func set(_ presenter: SearchViewPresenter) {
         self.presenter = presenter
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
     }
 }
 

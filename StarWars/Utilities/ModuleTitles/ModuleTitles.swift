@@ -13,7 +13,7 @@ enum ModuleTitles {
         case .favouriteButtonTitle:
             return "Saved favourite"
             
-        case .favourites
+        case .favourites:
             return "Favourites"
         }
     }

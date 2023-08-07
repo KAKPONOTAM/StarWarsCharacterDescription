@@ -10,6 +10,7 @@ final class FavouritesViewController: UIViewController {
         tableView.delegate = self
         tableView.register(StarWarsDataTableViewCell.self, forCellReuseIdentifier: StarWarsDataTableViewCell.reuseIdentifier)
         tableView.separatorStyle = .none
+        tableView.backgroundColor = .white
         
         return tableView
     }()
@@ -53,6 +54,14 @@ extension FavouritesViewController: PresenterConfigurationProtocol {
 extension FavouritesViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
+    }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .white
+        
+        return view
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

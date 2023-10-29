@@ -1,7 +1,7 @@
 import Foundation
 
 enum StarWarsPresentationModels: CaseIterable {
-    case charactersf
+    case characters
     case starships
     
     var title: String? {

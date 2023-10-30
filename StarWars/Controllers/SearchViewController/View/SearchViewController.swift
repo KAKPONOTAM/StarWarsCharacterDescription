@@ -14,7 +14,6 @@ final class SearchViewController: UIViewController {
         tableView.tableFooterView = footerView
         tableView.separatorStyle = .none
         tableView.backgroundColor = .white
-        //somechanges
         
         return tableView
     }()
